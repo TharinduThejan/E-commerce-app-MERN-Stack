@@ -108,7 +108,7 @@ const NewArrivals = () => {
             {newArrivals.map((product) => (
               <div
                 key={product.id}
-                className="group min-w-[250px] sm:min-w-[300px] bg-white rounded-2xl shadow-md hover:shadow-xl transition-transform duration-500 hover:-translate-y-3"
+                className="group min-w-[250px] sm:min-w-[300px] bg-white rounded-2xl shadow-md hover:shadow-xl transition-transform duration-500 hover:cursor-pointer hover:-translate-y-1"
               >
                 {/* Image Container */}
                 <div className="relative overflow-hidden rounded-t-2xl">
@@ -122,7 +122,7 @@ const NewArrivals = () => {
                 {/* Product Info */}
                 <div className="p-4 text-center">
                   <Link to={`/product/${product.id}`}>
-                    <h4 className="text-lg font-semibold text-gray-800 transition-colors group-hover:text-indigo-600">
+                    <h4 className="text-lg font-semibold text-gray-800 transition-colors group-hover:text-indigo-600 hover:cursor-pointer">
                       {product.name}
                     </h4>
                   </Link>

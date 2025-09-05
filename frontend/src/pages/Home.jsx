@@ -1,6 +1,7 @@
 import Hero from "../components/Layout/Hero.jsx";
 import GenderCollectionSection from "../components/Products/GenderCollectionSection.jsx";
 import NewArrivals from "../components/Products/NewArrivals.jsx";
+import ProductDetails from "../components/Products/ProductDetails.jsx";
 export default function Home() {
   return (
     <div>
@@ -8,7 +9,8 @@ export default function Home() {
       <GenderCollectionSection />
       <NewArrivals />
       {/*Best Seller Section */}
-      <h3>Best Seller</h3>
+
+      <ProductDetails />
     </div>
   );
 }
