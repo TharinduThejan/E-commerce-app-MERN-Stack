@@ -1,158 +1,112 @@
 import React from "react";
 import { IoLogoInstagram } from "react-icons/io";
 import { RiTwitterXLine } from "react-icons/ri";
-import { TbBrandMeta, TbFilePhone } from "react-icons/tb";
+import { TbBrandMeta } from "react-icons/tb";
 import { FiPhoneCall } from "react-icons/fi";
 
 const Footer = () => {
   return (
-    <footer className="py-12 border-t">
-      <div className="container grid grid-cols-1 gap-8 px-4 mx-auto md:grid-cols-4 lg:px-0">
-        <div className="px-4">
-          <h3 className="mb-4 text-lg text-gray-800">Newsletter</h3>
-          <p className="mb-4 text-gray-500">
-            be the first to hear about new products,exclusive events and online
+    <footer className="w-full py-12 border-t bg-gray-50">
+      <div className="container px-6 mx-auto text-center">
+        {/* Newsletter */}
+        <div className="max-w-2xl mx-auto mb-12">
+          <h3 className="mb-4 text-lg font-semibold text-gray-800">
+            Newsletter
+          </h3>
+          <p className="mb-2 text-gray-500">
+            Be the first to hear about new products, exclusive events and online
             offers.
           </p>
           <p className="mb-6 text-sm font-medium text-gray-600">
             Sign up and get 10% off your first order.
           </p>
-          {/* Newsletter Form */}
-          <form className="flex">
+          <form className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <input
               type="email"
               placeholder="Enter your email"
-              className="w-full p-3 text-sm transition-all border-t border-b border-l border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-gray-500"
+              className="w-full sm:w-[300px] p-3 text-sm border border-gray-300 rounded-md sm:rounded-l-md sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-gray-500"
               required
             />
             <button
               type="submit"
-              className="px-6 py-3 text-sm text-white transition-all bg-black rounded-r-md hover:bg-gray-800"
+              className="w-full px-6 py-3 text-sm text-white transition-all bg-black rounded-md sm:w-auto sm:rounded-r-md sm:rounded-l-none hover:bg-gray-800"
             >
               Subscribe
             </button>
           </form>
         </div>
-        {/* Links Section */}
-        <div>
-          <h3 className="mb-4 text-lg text-gray-800">Shop</h3>
-          <ul className="space-y-2">
-            <li>
-              <a
-                href="#"
-                className="text-gray-600 transition-colors hover:text-gray-800"
-              >
-                About Us
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="text-gray-600 transition-colors hover:text-gray-800"
-              >
-                Shop
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="text-gray-600 transition-colors hover:text-gray-800"
-              >
-                Contact
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="text-gray-600 transition-colors hover:text-gray-800"
-              >
-                Contact
-              </a>
-            </li>
-          </ul>
-        </div>
-        {/*support links*/}
-        <div>
-          <h3 className="mb-4 text-lg text-gray-800">Support</h3>
-          <ul className="space-y-2">
-            <li>
-              <a
-                href="#"
-                className="text-gray-600 transition-colors hover:text-gray-800"
-              >
-                FAQs
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="text-gray-600 transition-colors hover:text-gray-800"
-              >
-                Shipping
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="text-gray-600 transition-colors hover:text-gray-800"
-              >
-                Returns
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="text-gray-600 transition-colors hover:text-gray-800"
-              >
-                Contact
-              </a>
-            </li>
-          </ul>
-        </div>
-        {/*follow us section*/}
-        <div>
-          <h3 className="mb-4 text-lg text-gray-800">Follow Us </h3>
 
-          <div className="flex items-center mb-6 space-x-4">
-            <a
-              href="https://www.facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 hover:text-gray-800"
-            >
-              <TbBrandMeta className="w-5 h-5" />
+        {/* Links Section */}
+        <div className="flex flex-col justify-center gap-16 mb-12 sm:flex-row">
+          {/* Shop Links */}
+          <div>
+            <h3 className="mb-4 text-lg font-semibold text-gray-800">Shop</h3>
+            <ul className="space-y-2">
+              {["About Us", "Shop", "Contact", "Blog"].map((item, i) => (
+                <li key={i}>
+                  <a
+                    href="#"
+                    className="text-gray-600 transition-colors hover:text-gray-900"
+                  >
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Support Links */}
+          <div>
+            <h3 className="mb-4 text-lg font-semibold text-gray-800">
+              Support
+            </h3>
+            <ul className="space-y-2">
+              {["FAQs", "Shipping", "Returns", "Contact"].map((item, i) => (
+                <li key={i}>
+                  <a
+                    href="#"
+                    className="text-gray-600 transition-colors hover:text-gray-900"
+                  >
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Follow Us */}
+        <div className="mb-12">
+          <h3 className="mb-4 text-lg font-semibold text-gray-800">
+            Follow Us
+          </h3>
+          <div className="flex justify-center mb-6 space-x-5">
+            <a href="#" className="text-gray-600 hover:text-gray-900">
+              <TbBrandMeta className="w-6 h-6" />
             </a>
-            <a
-              href="https://www.facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 hover:text-gray-800"
-            >
-              <IoLogoInstagram className="w-5 h-5" />
+            <a href="#" className="text-gray-600 hover:text-gray-900">
+              <IoLogoInstagram className="w-6 h-6" />
             </a>
-            <a
-              href="https://www.facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 hover:text-gray-800"
-            >
-              <RiTwitterXLine className="w-4 h-4" />
+            <a href="#" className="text-gray-600 hover:text-gray-900">
+              <RiTwitterXLine className="w-6 h-6" />
             </a>
           </div>
           <p className="text-gray-500">Call Us</p>
-          <p>
-            <FiPhoneCall className="inline-block mr-2" />
+          <p className="flex items-center justify-center mt-2 text-gray-700">
+            <FiPhoneCall className="w-5 h-5 mr-2" />
             123-456-7890
           </p>
         </div>
-      </div>
-      {/* Bottom Section */}
-      <div className="container px-4 pt-6 mx-auto mt-12 border-t border-gray-200 lg:px-0">
-        <p className="text-sm tracking-tighter text-center text-gray-500">
-          2025 ,CompileTab. All Rights Reserved.
-        </p>
+
+        {/* Bottom Section */}
+        <div className="pt-6 border-t border-gray-200">
+          <p className="text-sm text-gray-500">
+            © 2025 CompileTab. All Rights Reserved.
+          </p>
+        </div>
       </div>
     </footer>
   );
 };
+
 export default Footer;
