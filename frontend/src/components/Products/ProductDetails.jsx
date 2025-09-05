@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "sonner";
+import ProductGrid from "./ProductGrid";
 
 const selectedProduct = {
   name: "Sample Product",
@@ -23,6 +24,75 @@ const selectedProduct = {
     },
   ],
 };
+
+const similarProducts = [
+  {
+    _id: 1,
+    name: "Similar Product 1",
+    price: "$89.99",
+    images: [
+      {
+        url: "https://picsum.photos/400?random=16",
+        alt: "Similar Product Image 1",
+      },
+    ],
+  },
+  {
+    _id: 2,
+    name: "Similar Product 2",
+    price: "$79.99",
+    images: [
+      {
+        url: "https://picsum.photos/400?random=17",
+        alt: "Similar Product Image 2",
+      },
+    ],
+  },
+  {
+    _id: 3,
+    name: "Similar Product 3",
+    price: "$69.99",
+    images: [
+      {
+        url: "https://picsum.photos/400?random=18",
+        alt: "Similar Product Image 3",
+      },
+    ],
+  },
+  {
+    _id: 4,
+    name: "Similar Product 4",
+    price: "$59.99",
+    images: [
+      {
+        url: "https://picsum.photos/400?random=19",
+        alt: "Similar Product Image 4",
+      },
+    ],
+  },
+  {
+    _id: 5,
+    name: "Similar Product 5",
+    price: "$49.99",
+    images: [
+      {
+        url: "https://picsum.photos/400?random=20",
+        alt: "Similar Product Image 5",
+      },
+    ],
+  },
+  {
+    _id: 6,
+    name: "Similar Product 6",
+    price: "$39.99",
+    images: [
+      {
+        url: "https://picsum.photos/400?random=21",
+        alt: "Similar Product Image 6",
+      },
+    ],
+  },
+];
 
 const ProductDetails = () => {
   const [mainImage, setMainImage] = useState("");
@@ -197,6 +267,11 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
+        <div className="mt-20"></div>
+        <h2 className="mb-4 text-2xl font-medium text-center">
+          You may also like
+        </h2>
+        <ProductGrid products={similarProducts} />
       </div>
     </div>
   );
