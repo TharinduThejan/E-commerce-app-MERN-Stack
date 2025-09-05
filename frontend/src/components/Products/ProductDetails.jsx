@@ -70,32 +70,12 @@ const similarProducts = [
       },
     ],
   },
-  {
-    _id: 5,
-    name: "Similar Product 5",
-    price: "$49.99",
-    images: [
-      {
-        url: "https://picsum.photos/400?random=20",
-        alt: "Similar Product Image 5",
-      },
-    ],
-  },
-  {
-    _id: 6,
-    name: "Similar Product 6",
-    price: "$39.99",
-    images: [
-      {
-        url: "https://picsum.photos/400?random=21",
-        alt: "Similar Product Image 6",
-      },
-    ],
-  },
 ];
 
 const ProductDetails = () => {
-  const [mainImage, setMainImage] = useState("");
+  const [mainImage, setMainImage] = useState(
+    selectedProduct.images.length > 0 ? selectedProduct.images[0].url : null
+  );
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -147,11 +127,13 @@ const ProductDetails = () => {
           {/*main image*/}
           <div className="flex-shrink-0 w-full md:w-1/2">
             <div className="overflow-hidden rounded-lg">
-              <img
-                src={mainImage}
-                alt={selectedProduct.images[0].alt || "Main Product Image"}
-                className="object-cover w-full h-auto rounded-lg"
-              />
+              {mainImage && (
+                <img
+                  src={mainImage}
+                  alt={selectedProduct.images[0].alt || "Main Product Image"}
+                  className="object-cover w-full h-auto rounded-lg"
+                />
+              )}
             </div>
           </div>
           {/*mobile thumbnails*/}
