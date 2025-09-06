@@ -6,6 +6,8 @@ import { Toaster } from "sonner";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import CollectionPage from "./pages/CollectionPage.jsx";
+import FilterSideBar from "./components/Products/FilterSideBar.jsx";
 
 export const App = () => {
   return (
@@ -17,6 +19,8 @@ export const App = () => {
           <Route path="/register" element={<Register />} />
           <Route index element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/collections/:collection" element={<CollectionPage />} />
+          <Route path="/FilterSideBar" element={<FilterSideBar />} />
           {/*User Layout*/}
         </Route>
         <Route>{/*admin Layout*/}</Route>
