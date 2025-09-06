@@ -27,7 +27,7 @@ const selectedProduct = {
 
 const similarProducts = [
   {
-    _id: 1,
+    id: 1,
     name: "Similar Product 1",
     price: "$89.99",
     images: [
@@ -38,7 +38,7 @@ const similarProducts = [
     ],
   },
   {
-    _id: 2,
+    id: 2,
     name: "Similar Product 2",
     price: "$79.99",
     images: [
@@ -49,7 +49,7 @@ const similarProducts = [
     ],
   },
   {
-    _id: 3,
+    id: 3,
     name: "Similar Product 3",
     price: "$69.99",
     images: [
@@ -60,7 +60,7 @@ const similarProducts = [
     ],
   },
   {
-    _id: 4,
+    id: 4,
     name: "Similar Product 4",
     price: "$59.99",
     images: [
