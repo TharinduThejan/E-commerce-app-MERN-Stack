@@ -32,16 +32,16 @@ const Navbar = () => {
         {/* Center-navigation Links */}
         <div className="hidden space-x-6 md:flex">
           <Link
-            to="/about"
+            to="/"
             className="text-sm font-medium text-gray-700 uppercase hover:text-black"
           >
-            Men
+            Home
           </Link>
           <Link
-            to="/services"
+            to="/collections/:collection"
             className="text-sm font-medium text-gray-700 uppercase hover:text-black"
           >
-            Women
+            Collections
           </Link>
           <Link
             to="/contact"

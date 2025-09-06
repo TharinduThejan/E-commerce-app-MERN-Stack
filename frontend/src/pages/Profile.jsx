@@ -1,7 +1,14 @@
 import React from "react";
 import MyOrdersPage from "./MyOrdersPage.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
+  const navigate = useNavigate();
+
+  const Logoutfun = () => {
+    navigate("/login");
+  };
+
   return (
     <>
       <div className="flex justify-center h-screen p-2 space-x-10 bg-gray-100">
@@ -14,7 +21,10 @@ export default function Profile() {
             alt="Profile"
             className="w-24 h-24 mt-4 rounded-full"
           />
-          <button className="w-full py-2 mt-6 text-white transition bg-red-500 rounded-lg hover:bg-red-600">
+          <button
+            onClick={Logoutfun}
+            className="w-full py-2 mt-6 text-white transition bg-red-500 rounded-lg hover:bg-red-600"
+          >
             Logout
           </button>
         </div>
