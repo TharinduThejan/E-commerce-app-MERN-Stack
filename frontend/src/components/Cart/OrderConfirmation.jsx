@@ -1,5 +1,27 @@
 import React from "react";
-
+const OrderedProducts = {
+  products: [
+    {
+      id: 1,
+      name: "Classic Oxford Button-Down Shirt",
+      size: "M",
+      color: "Red",
+      price: 39.99,
+      quantity: 1,
+      img: "https://picsum.photos/400?random=200",
+    },
+    {
+      id: 2,
+      name: "Slim Fit Jeans",
+      size: "L",
+      color: "Blue",
+      price: 49.99,
+      quantity: 1,
+      img: "https://picsum.photos/400?random=201",
+    },
+  ],
+  totalPrice: 89.98,
+};
 export default function OrderConfirmation() {
   return (
     <div className="flex items-center justify-center min-h-screen p-6 bg-gray-50">
@@ -22,43 +44,27 @@ export default function OrderConfirmation() {
 
         {/* Product List */}
         <div className="space-y-6">
-          {/* Item 1 */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <img
-                src="https://picsum.photos/100?random=300"
-                alt="Jacket"
-                className="object-cover w-16 h-16 rounded-lg"
-              />
-              <div>
-                <p className="font-semibold">Jacket</p>
-                <p className="text-sm text-gray-600">black | M</p>
+          {OrderedProducts.products.map((product) => (
+            <div key={product.id} className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <img
+                  src={product.img}
+                  alt={product.name}
+                  className="object-cover w-16 h-16 rounded-lg"
+                />
+                <div>
+                  <p className="font-semibold">{product.name}</p>
+                  <p className="text-sm text-gray-600">
+                    {product.color} | {product.size}
+                  </p>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="font-semibold">${product.price}</p>
+                <p className="text-sm text-gray-600">Qty: {product.quantity}</p>
               </div>
             </div>
-            <div className="text-right">
-              <p className="font-semibold">$150</p>
-              <p className="text-sm text-gray-600">Qty: 1</p>
-            </div>
-          </div>
-
-          {/* Item 2 */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <img
-                src="https://picsum.photos/100?random=301"
-                alt="T-shirt"
-                className="object-cover w-16 h-16 rounded-lg"
-              />
-              <div>
-                <p className="font-semibold">T-shirt</p>
-                <p className="text-sm text-gray-600">black | M</p>
-              </div>
-            </div>
-            <div className="text-right">
-              <p className="font-semibold">$120</p>
-              <p className="text-sm text-gray-600">Qty: 2</p>
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* Payment & Delivery */}
