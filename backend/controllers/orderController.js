@@ -1,29 +1,50 @@
 const Order = require('../models/Order');
+const Product = require('../models/Product');
 
-exports.getOrders = async (req, res) => {
-    const orders = await Order.find().populate('user products.product');
-    res.json(orders);
-};
-
+// Create new order
 exports.createOrder = async (req, res) => {
-    const order = new Order(req.body);
-    await order.save();
-    res.status(201).json(order);
+    const { orderItems } = req.body;
+
+    if (!orderItems || orderItems.length === 0) return res.status(400).json({ error: 'No order items' });
+
+    try {
+        let totalPrice = 0;
+        for (let item of orderItems) {
+            const product = await Product.findById(item.product);
+            if (!product) return res.status(404).json({ error: 'Product not found' });
+            totalPrice += product.price * item.quantity;
+            item.name = product.name;
+            item.price = product.price;
+        }
+
+        const order = await Order.create({
+            user: req.user._id,
+            orderItems,
+            totalPrice
+        });
+
+        res.status(201).json(order);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
 
-exports.getOrder = async (req, res) => {
-    const order = await Order.findById(req.params.id).populate('user products.product');
-    if (!order) return res.status(404).json({ error: 'Order not found' });
-    res.json(order);
+// Get user's orders
+exports.getMyOrders = async (req, res) => {
+    try {
+        const orders = await Order.find({ user: req.user._id }).populate('orderItems.product', 'name price');
+        res.json(orders);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
 
-exports.updateOrder = async (req, res) => {
-    const order = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!order) return res.status(404).json({ error: 'Order not found' });
-    res.json(order);
-};
-
-exports.deleteOrder = async (req, res) => {
-    await Order.findByIdAndDelete(req.params.id);
-    res.status(204).end();
+// Get all orders (admin)
+exports.getOrders = async (req, res) => {
+    try {
+        const orders = await Order.find().populate('user', 'name email');
+        res.json(orders);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
