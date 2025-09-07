@@ -58,35 +58,38 @@ const Navbar = () => {
           </Link>
 
           {/* Admin link - only visible if role is admin */}
-          {user?.role == "admin" && (
-            <Link
-              to="/admin"
-              className="text-sm font-medium text-gray-700 uppercase hover:text-black"
-            >
-              Admin
-            </Link>
-          )}
+          {localStorage.getItem("token") ? (
+            <>
+              {user?.role == "admin" && (
+                <Link
+                  to="/admin"
+                  className="text-sm font-medium text-gray-700 uppercase hover:text-black"
+                >
+                  Admin
+                </Link>
+              )}
+            </>
+          ) : null}
         </div>
 
-        {/* Right-icons */}
+        {/* Right-icons: Show only if logged in by OIDC or email/password (token exists) */}
         <div className="flex items-center space-x-4">
-          {localStorage.getItem("token") && (
-            <Link to="/profile" className="hover:text-black">
-              <HiOutlineUser className="w-6 h-6 text-gray-700" />
-            </Link>
-          )}
-          {/* Show cart icon only if user is logged in */}
-          {localStorage.getItem("token") && (
-            <button
-              onClick={toggleCartDrawer}
-              className="relative hover:text-black"
-            >
-              <HiOutlineShoppingBag className="w-6 h-6 text-gray-700" />
-              <span className="absolute -top-1 bg-primary text-white text-xs rounded-full px-2 py-0.5">
-                4
-              </span>
-            </button>
-          )}
+          {localStorage.getItem("token") ? (
+            <>
+              <Link to="/profile" className="hover:text-black">
+                <HiOutlineUser className="w-6 h-6 text-gray-700" />
+              </Link>
+              <button
+                onClick={toggleCartDrawer}
+                className="relative hover:text-black"
+              >
+                <HiOutlineShoppingBag className="w-6 h-6 text-gray-700" />
+                <span className="absolute -top-1 bg-primary text-white text-xs rounded-full px-2 py-0.5">
+                  4
+                </span>
+              </button>
+            </>
+          ) : null}
 
           <div className="overflow-hidden">
             <SearchBar />
