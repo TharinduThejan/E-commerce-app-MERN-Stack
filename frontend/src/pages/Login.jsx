@@ -1,15 +1,36 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import loginWall from "../assets/login.webp";
 import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     if (!email || !password) return alert("Please fill all the fields");
-    console.log({ email, password });
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/users/login`,
+        { email, password }
+      );
+      localStorage.setItem("token", res.data.token);
+      setLoading(false);
+      navigate("/");
+    } catch (err) {
+      setLoading(false);
+      setError(
+        err.response?.data?.error ||
+          "Login failed. Please check your credentials."
+      );
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -45,9 +66,15 @@ const Login = () => {
             <button
               type="submit"
               className="w-full py-2 text-white bg-black rounded-md hover:bg-gray-800"
+              disabled={loading}
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </button>
+            {error && (
+              <div className="mt-2 text-sm text-center text-red-500">
+                {error}
+              </div>
+            )}
           </form>
 
           <div className="flex items-center my-4">

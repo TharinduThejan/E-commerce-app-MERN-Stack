@@ -1,9 +1,13 @@
 import React from "react";
 import MyOrdersPage from "./MyOrdersPage.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const handleLogout = () => {
+    localStorage.removeItem("token");
     window.open(`${import.meta.env.VITE_API_URL}/auth/logout`, "_self");
+    navigate("/login");
   };
 
   return (
