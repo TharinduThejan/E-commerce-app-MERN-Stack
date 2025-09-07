@@ -1,28 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import loginWall from "../assets/login.webp";
+import { FcGoogle } from "react-icons/fc";
 
-export default function Register() {
-  const [email, setEmail] = React.useState("");
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
+const Register = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = (e) => {
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-    if (username === "" || email === "" || password === "") {
-      alert("Please fill all the fields");
-      return;
-    }
     e.preventDefault();
-    console.log({ email, username, password, confirmPassword });
+    if (!username || !email || !password || !confirmPassword)
+      return alert("Please fill all fields");
+    if (password !== confirmPassword) return alert("Passwords do not match");
+    console.log({ username, email, password });
+  };
+
+  const handleGoogleRegister = () => {
+    window.open(`${import.meta.env.VITE_API_URL}/auth/google`, "_self");
   };
 
   return (
     <div className="flex h-screen">
-      {/* Left Side - Register Form */}
+      {/* Left: Form */}
       <div className="flex items-center justify-center w-full bg-white md:w-1/2">
         <div className="w-full max-w-md p-8 border rounded-lg shadow-sm">
           <h2 className="text-xl font-semibold text-center">Rabbit</h2>
@@ -33,87 +33,76 @@ export default function Register() {
             Fill in your details to register.
           </p>
 
-          {/* Form */}
           <form className="space-y-4" onSubmit={handleSubmit}>
-            <div>
-              <label className="block mb-1 text-sm font-medium text-gray-700">
-                Username
-              </label>
-              <input
-                type="text"
-                placeholder="Choose a username"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label className="block mb-1 text-sm font-medium text-gray-700">
-                Email
-              </label>
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label className="block mb-1 text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                type="password"
-                placeholder="Enter your password"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label className="block mb-1 text-sm font-medium text-gray-700">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                placeholder="Re-enter your password"
-                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
-
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+            />
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+            />
             <button
               type="submit"
-              disabled={!email || !username || !password || !confirmPassword}
-              className="w-full py-2 text-white transition bg-black rounded-md hover:bg-gray-800"
+              className="w-full py-2 text-white bg-black rounded-md hover:bg-gray-800"
             >
               Register
             </button>
           </form>
 
-          {/* Login Link */}
+          <div className="flex items-center my-4">
+            <hr className="flex-grow border-gray-300" />
+            <span className="px-2 text-sm text-gray-500">OR</span>
+            <hr className="flex-grow border-gray-300" />
+          </div>
+
+          <button
+            onClick={handleGoogleRegister}
+            className="flex items-center justify-center w-full gap-2 py-2 text-sm font-medium text-gray-700 bg-white border rounded-md shadow-sm hover:bg-gray-100"
+          >
+            <FcGoogle size={20} />
+            Sign up with Google
+          </button>
+
           <p className="mt-4 text-sm text-center text-gray-600">
             Already have an account?{" "}
             <a href="/login" className="text-blue-500 hover:underline">
-              Sign In
+              Login
             </a>
           </p>
         </div>
       </div>
 
-      {/* Right Side - Image */}
+      {/* Right: Image */}
       <div className="hidden md:block md:w-1/2">
         <img
           src={loginWall}
-          alt="Register Visual"
+          alt="Register"
           className="object-cover w-full h-full"
         />
       </div>
     </div>
   );
-}
+};
+
+export default Register;
