@@ -1,54 +1,62 @@
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
-// Get all users
-exports.getUsers = async (req, res) => {
+// Generate JWT
+const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+// Register
+exports.registerUser = async (req, res) => {
+  const { name, email, password } = req.body;
+
   try {
-    const users = await User.find();
-    res.json(users);
+    const userExists = await User.findOne({ email });
+    if (userExists) return res.status(400).json({ error: 'User already exists' });
+
+    const user = await User.create({ name, email, password });
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      token: generateToken(user._id)
+    });
   } catch (err) {
-    res.status(500).json({ error: 'Server error', details: err.message });
+    res.status(500).json({ error: err.message });
   }
 };
 
-// Create user (admin use or generic)
-exports.createUser = async (req, res) => {
+// Login
+exports.loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
   try {
-    const user = new User(req.body);
-    await user.save();
-    res.status(201).json(user);
+    const user = await User.findOne({ email });
+    if (user && await user.comparePassword(password)) {
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        token: generateToken(user._id)
+      });
+    } else {
+      res.status(401).json({ error: 'Invalid email or password' });
+    }
   } catch (err) {
-    res.status(500).json({ error: 'Server error', details: err.message });
+    res.status(500).json({ error: err.message });
   }
 };
 
-// Get user by ID
-exports.getUser = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ error: 'User not found' });
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ error: 'Server error', details: err.message });
-  }
-};
-
-// Update user by ID
-exports.updateUser = async (req, res) => {
-  try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!user) return res.status(404).json({ error: 'User not found' });
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ error: 'Server error', details: err.message });
-  }
-};
-
-// Delete user by ID
-exports.deleteUser = async (req, res) => {
-  try {
-    await User.findByIdAndDelete(req.params.id);
-    res.status(204).end();
-  } catch (err) {
-    res.status(500).json({ error: 'Server error', details: err.message });
+// Get profile
+exports.getProfile = async (req, res) => {
+  const user = req.user;
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    });
+  } else {
+    res.status(404).json({ error: 'User not found' });
   }
 };

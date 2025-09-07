@@ -1,52 +1,23 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      trim: true
-    },
-    email: {
-      type: String,
-      unique: true,
-      required: true,
-      trim: true,
-      match: [/.+\@.+\..+/, 'Please fill a valid email address'],
-    },
-    password: {
-      type: String,
-      trim: true,
-      validate: {
-        validator: function (v) {
-          // Only validate length if password is provided
-          return !v || v.length >= 6;
-        },
-        message: 'Password must be at least 6 characters',
-      },
-    },
-    googleId: { type: String },
-    role: {
-      type: String,
-      enum: ['customer', 'admin'],
-      default: 'customer'
-    }
-  },
-  { timestamps: true }
-);
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String },
+  googleId: { type: String },
+  role: { type: String, default: 'user' }
+}, { timestamps: true });
 
-// Password hashing middleware
+// Hash password
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+  this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
-// Compare entered password to hashed password
-userSchema.methods.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+userSchema.methods.comparePassword = function (password) {
+  return bcrypt.compare(password, this.password);
 };
 
 module.exports = mongoose.model('User', userSchema);
