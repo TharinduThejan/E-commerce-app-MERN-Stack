@@ -1,24 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   HiOutlineUser,
   HiOutlineShoppingBag,
   HiBars3BottomRight,
 } from "react-icons/hi2";
+import { IoMdClose } from "react-icons/io";
 import SearchBar from "./SearchBar";
 import CartDrawer from "../Layout/CartDrawer";
-import { useState } from "react";
-import { IoMdClose } from "react-icons/io";
+import { getCurrentUser } from "../../services/userService";
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [navDrawerOpen, setNavDrawerOpen] = useState(false);
-  const toggleNavDrawer = () => {
-    setNavDrawerOpen(!navDrawerOpen);
-  };
-  const toggleCartDrawer = () => {
-    setDrawerOpen(!drawerOpen);
-  };
+  const [user, setUser] = useState(null);
+
+  const toggleNavDrawer = () => setNavDrawerOpen(!navDrawerOpen);
+  const toggleCartDrawer = () => setDrawerOpen(!drawerOpen);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      try {
+        const data = await getCurrentUser(token);
+        setUser(data); // data should include role
+      } catch (err) {
+        console.log("Error fetching user:", err);
+      }
+    };
+    fetchUser();
+  }, []);
 
   return (
     <>
@@ -29,6 +41,7 @@ const Navbar = () => {
             Logo
           </Link>
         </div>
+
         {/* Center-navigation Links */}
         <div className="hidden space-x-6 md:flex">
           <Link
@@ -43,47 +56,55 @@ const Navbar = () => {
           >
             Collections
           </Link>
-          <Link
-            to="/contact"
-            className="text-sm font-medium text-gray-700 uppercase hover:text-black"
-          >
-            Top Wear
-          </Link>
-          <Link
-            to="/contact"
-            className="text-sm font-medium text-gray-700 uppercase hover:text-black"
-          >
-            Bottom Wear
-          </Link>
+
+          {/* Admin link - only visible if role is admin */}
+          {user?.role == "admin" && (
+            <Link
+              to="/admin"
+              className="text-sm font-medium text-gray-700 uppercase hover:text-black"
+            >
+              Admin
+            </Link>
+          )}
         </div>
+
         {/* Right-icons */}
         <div className="flex items-center space-x-4">
-          <Link to="/profile" className="hover:text-black">
-            <HiOutlineUser className="w-6 h-6 text-gray-700" />
-          </Link>
-          <button
-            onClick={toggleCartDrawer}
-            className="relative hover:text-black"
-          >
-            <HiOutlineShoppingBag className="w-6 h-6 text-gray-700" />
-            <span className="absolute -top-1 bg-primary text-white  text-xs rounded-full px-2 py-0.5">
-              4
-            </span>
-          </button>
-          {/*Search Icon*/}
+          {localStorage.getItem("token") && (
+            <Link to="/profile" className="hover:text-black">
+              <HiOutlineUser className="w-6 h-6 text-gray-700" />
+            </Link>
+          )}
+          {/* Show cart icon only if user is logged in */}
+          {localStorage.getItem("token") && (
+            <button
+              onClick={toggleCartDrawer}
+              className="relative hover:text-black"
+            >
+              <HiOutlineShoppingBag className="w-6 h-6 text-gray-700" />
+              <span className="absolute -top-1 bg-primary text-white text-xs rounded-full px-2 py-0.5">
+                4
+              </span>
+            </button>
+          )}
+
           <div className="overflow-hidden">
             <SearchBar />
           </div>
+
           {/* Mobile Navigation Toggle */}
           <button onClick={toggleNavDrawer} className="md:hidden">
             <HiBars3BottomRight className="w-6 h-6 text-gray-700" />
           </button>
         </div>
       </nav>
+
+      {/* Cart Drawer */}
       <CartDrawer drawerOpen={drawerOpen} toggleCartDrawer={toggleCartDrawer} />
+
       {/* Mobile Navigation Drawer */}
       <div
-        className={`fixed top-0 left-0 w-3/4  sm:w-1/2 md:w-1/3 h-full bg-white shadow-lg transform transition-transform duration-300 z-50 ${
+        className={`fixed top-0 left-0 w-3/4 sm:w-1/2 md:w-1/3 h-full bg-white shadow-lg transform transition-transform duration-300 z-50 ${
           navDrawerOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -123,6 +144,17 @@ const Navbar = () => {
             >
               Bottom Wear
             </Link>
+
+            {/* Admin link in mobile drawer */}
+            {user?.role === "admin" && (
+              <Link
+                to="/admin"
+                onClick={toggleNavDrawer}
+                className="block text-gray-600 hover:text-black"
+              >
+                Admin
+              </Link>
+            )}
           </nav>
         </div>
       </div>

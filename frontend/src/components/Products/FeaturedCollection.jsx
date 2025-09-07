@@ -16,7 +16,7 @@ export default function FeaturedCollection() {
           day.
         </p>
         <Link
-          to="collection/all"
+          to="collections/collection"
           className="px-6 py-3 text-white transition bg-black rounded-md hover:bg-gray-800"
         >
           Shop Now

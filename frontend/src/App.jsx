@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
 
@@ -23,32 +23,42 @@ import UserManagement from "./components/Admin/userManagement.jsx";
 import OrderManagement from "./components/Admin/orderManagement.jsx";
 import ProductsManagement from "./components/Admin/productsManagement.jsx";
 
-const App = () => (
-  <BrowserRouter>
-    <Toaster position="top-right" />
-    <Routes>
-      {/* User routes */}
-      <Route path="/" element={<UserLayout />}>
-        <Route index element={<Home />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="collections/:collection" element={<CollectionPage />} />
-        <Route path="filter-sidebar" element={<FilterSideBar />} />
-        <Route path="products/:id" element={<ProductDetails />} />
-        <Route path="checkout" element={<Checkout />} />
-        <Route path="order-confirmation" element={<Confirmation />} />
-      </Route>
+const App = () => {
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    if (token) {
+      localStorage.setItem("token", token);
+      window.location.replace("/");
+    }
+  }, []);
+  return (
+    <BrowserRouter>
+      <Toaster position="top-right" />
+      <Routes>
+        {/* User routes */}
+        <Route path="/" element={<UserLayout />}>
+          <Route index element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="collections/:collection" element={<CollectionPage />} />
+          <Route path="filter-sidebar" element={<FilterSideBar />} />
+          <Route path="products/:id" element={<ProductDetails />} />
+          <Route path="checkout" element={<Checkout />} />
+          <Route path="order-confirmation" element={<Confirmation />} />
+        </Route>
 
-      {/* Admin routes */}
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<AdminPage />} />
-        <Route path="users" element={<UserManagement />} />
-        <Route path="orders" element={<OrderManagement />} />
-        <Route path="products" element={<ProductsManagement />} />
-      </Route>
-    </Routes>
-  </BrowserRouter>
-);
+        {/* Admin routes */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminPage />} />
+          <Route path="users" element={<UserManagement />} />
+          <Route path="orders" element={<OrderManagement />} />
+          <Route path="products" element={<ProductsManagement />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
 export default App;

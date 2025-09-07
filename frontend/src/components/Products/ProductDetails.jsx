@@ -220,14 +220,18 @@ const ProductDetails = () => {
             </div>
             <button
               onClick={handleAddToCart}
-              disabled={isButtonDisabled}
+              disabled={isButtonDisabled || !localStorage.getItem("token")}
               className={`w-full px-4 py-3 text-white bg-black rounded-lg hover:bg-gray-700 ${
-                isButtonDisabled
+                isButtonDisabled || !localStorage.getItem("token")
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:bg-gray-900"
               }`}
             >
-              {isButtonDisabled ? "Adding..." : "ADD TO CART"}
+              {!localStorage.getItem("token")
+                ? "Login to add to cart"
+                : isButtonDisabled
+                ? "Adding..."
+                : "ADD TO CART"}
             </button>
 
             <div className="mt-10 text-gray-700 ">
