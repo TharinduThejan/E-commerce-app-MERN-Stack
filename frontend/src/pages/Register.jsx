@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { createUser } from "../services/userService";
 import loginWall from "../assets/login.webp";
 import { FcGoogle } from "react-icons/fc";
 
@@ -8,12 +9,24 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!username || !email || !password || !confirmPassword)
       return alert("Please fill all fields");
     if (password !== confirmPassword) return alert("Passwords do not match");
-    console.log({ username, email, password });
+    try {
+      const userData = { name: username, email, password };
+      const res = await createUser(userData);
+      if (res.token) {
+        localStorage.setItem("token", res.token);
+        alert("Registration successful!");
+        window.location.replace("/");
+      } else {
+        alert("Registration failed. Please try again.");
+      }
+    } catch (err) {
+      alert(err.response?.data?.error || "Registration error");
+    }
   };
 
   const handleGoogleRegister = () => {

@@ -11,10 +11,8 @@ export const getUsers = async (token) => {
 };
 
 // Create a new user
-export const createUser = async (userData, token) => {
-  const res = await axios.post(`${API_URL}/api/users`, userData, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export const createUser = async (userData) => {
+  const res = await axios.post(`${API_URL}/api/users/register`, userData);
   return res.data;
 };
 
