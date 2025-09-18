@@ -10,23 +10,26 @@ export const getProducts = async (token) => {
   return res.data;
 };
 
-// Add new product with image
+// Create product
 export const createProduct = async (product, token) => {
-  const formData = new FormData();
-  formData.append("name", product.name);
-  formData.append("price", product.price);
-  formData.append("description", product.description || "");
-  formData.append("category", product.category || "General");
-  formData.append("stock", product.stock || 0);
+  // Send JSON, not FormData, since image is already a URL from Supabase
+  const body = {
+    name: product.name,
+    price: product.price,
+    description: product.description || "",
+    category: product.category || "General",
+    stock: product.stock || 0,
+    size: product.size || [],
+    color: product.color || [],
+    material: product.material || "",
+    collection: product.collection || "",
+    images: product.image ? [{ url: product.image }] : [],
+  };
 
-  if (product.image) {
-    formData.append("image", product.image);
-  }
-
-  const res = await axios.post(API_URL, formData, {
+  const res = await axios.post(API_URL, body, {
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
     },
   });
   return res.data;
@@ -34,18 +37,23 @@ export const createProduct = async (product, token) => {
 
 // Update product
 export const updateProduct = async (id, product, token) => {
-  const formData = new FormData();
-  if (product.name) formData.append("name", product.name);
-  if (product.price) formData.append("price", product.price);
-  if (product.description) formData.append("description", product.description);
-  if (product.category) formData.append("category", product.category);
-  if (product.stock) formData.append("stock", product.stock);
-  if (product.image) formData.append("image", product.image);
+  const body = {};
 
-  const res = await axios.put(`${API_URL}/${id}`, formData, {
+  if (product.name) body.name = product.name;
+  if (product.price) body.price = product.price;
+  if (product.description) body.description = product.description;
+  if (product.category) body.category = product.category;
+  if (product.stock !== undefined) body.stock = product.stock;
+  if (product.size) body.size = product.size;
+  if (product.color) body.color = product.color;
+  if (product.material) body.material = product.material;
+  if (product.collection) body.collection = product.collection;
+  if (product.image) body.images = [{ url: product.image }];
+
+  const res = await axios.put(`${API_URL}/${id}`, body, {
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
     },
   });
   return res.data;
