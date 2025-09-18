@@ -14,7 +14,7 @@ const productSchema = new mongoose.Schema({
   sizes: { type: [String], required: true },
   colors: { type: [String], required: true },
   material: { type: String, enum: ['Cotton', 'Polyester', 'Silk'] },
-  category: { type: String, enum: ['Men', 'Women', 'Kids'] },
+  category: { type: String, enum: ['Men', 'Women',] },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Product', productSchema);

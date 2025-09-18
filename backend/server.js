@@ -7,8 +7,9 @@ require('./auth/oidc'); // Google OIDC
 
 const userRoutes = require('./routes/user');
 const productRoutes = require('./routes/product');
-const orderRoutes = require('./routes/order');
+const orderRoutes = require('./routes/stripe.js');
 const authRoutes = require('./routes/auth');
+const cartRoutes = require('./routes/cart');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(passport.initialize());
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/cart', cartRoutes);
 app.use('/auth', authRoutes);
 
 app.get('/', (req, res) => res.send('API is running...'));
