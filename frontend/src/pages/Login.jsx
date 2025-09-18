@@ -22,6 +22,7 @@ const Login = () => {
         { email, password }
       );
       localStorage.setItem("token", res.data.token);
+      console.log(res.data);
       setLoading(false);
       navigate("/");
     } catch (err) {

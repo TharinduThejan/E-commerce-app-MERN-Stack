@@ -20,6 +20,8 @@ const Register = () => {
       if (res.token) {
         localStorage.setItem("token", res.token);
         alert("Registration successful!");
+        console.log(res.data);
+
         window.location.replace("/");
       } else {
         alert("Registration failed. Please try again.");
