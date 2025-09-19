@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
-
 // Layouts
 import UserLayout from "./components/Layout/UserLayout";
 import AdminLayout from "./components/Admin/adminLayout";
@@ -46,7 +45,7 @@ const App = () => {
           <Route path="filter-sidebar" element={<FilterSideBar />} />
           <Route path="products/:id" element={<ProductDetails />} />
           <Route path="checkout" element={<Checkout />} />
-          <Route path="order-confirmation" element={<Confirmation />} />
+          <Route path="orderConfirmation" element={<Confirmation />} />
         </Route>
 
         {/* Admin routes */}

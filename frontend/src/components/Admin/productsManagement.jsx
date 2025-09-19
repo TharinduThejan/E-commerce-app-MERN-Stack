@@ -16,15 +16,12 @@ export default function ProductsManagement() {
     description: "",
     category: "",
     stock: 0,
-    size: [],
-    color: [],
+    size: "",
+    color: "",
     material: "",
     collection: "",
     image: null,
   });
-  useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
 
   const token = localStorage.getItem("token");
 
@@ -38,6 +35,10 @@ export default function ProductsManagement() {
     }
   }, [token]);
 
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "image" && files) {
@@ -47,15 +48,15 @@ export default function ProductsManagement() {
     }
   };
 
-  const handleCheckboxChange = (e) => {
-    const { name, value, checked } = e.target;
-    let arr = form[name] || [];
-    if (checked) {
-      setForm({ ...form, [name]: [...arr, value] });
-    } else {
-      setForm({ ...form, [name]: arr.filter((item) => item !== value) });
-    }
-  };
+  // const handleCheckboxChange = (e) => {
+  //   const { name, value, checked } = e.target;
+  //   let arr = form[name] || [];
+  //   if (checked) {
+  //     setForm({ ...form, [name]: [...arr, value] });
+  //   } else {
+  //     setForm({ ...form, [name]: arr.filter((item) => item !== value) });
+  //   }
+  // };
 
   const handleAddProduct = async () => {
     if (!form.name || !form.price) {
@@ -99,8 +100,8 @@ export default function ProductsManagement() {
         description: "",
         category: "",
         stock: 0,
-        size: [],
-        color: [],
+        size: "",
+        color: "",
         material: "",
         collection: "",
         image: null,
@@ -129,12 +130,13 @@ export default function ProductsManagement() {
   const handleEdit = async (product) => {
     const newName = prompt("Enter new name:", product.name);
     const newPrice = prompt("Enter new price:", product.price);
-    if (!newName || !newPrice) return;
+    const newStock = prompt("Enter new stock:", product.stock);
+    if (!newName || !newPrice || !newStock) return;
 
     try {
       await updateProduct(
         product._id,
-        { name: newName, price: newPrice },
+        { name: newName, price: newPrice, stock: newStock },
         token
       );
       fetchProducts();
@@ -144,10 +146,10 @@ export default function ProductsManagement() {
     }
   };
 
-  const categories = ["Men", "Women", "Kids", "Accessories"];
+  const categories = ["Men", "Women"];
   const sizes = ["S", "M", "L", "XL"];
-  const colors = ["Red", "Blue", "Green", "Black", "White"];
-  const materials = ["Cotton", "Polyester", "Wool", "Leather"];
+  const colors = ["Red", "Blue", "Gray", "Black", "White"];
+  const materials = ["Cotton", "Polyester"];
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 md:flex-row">
@@ -208,17 +210,17 @@ export default function ProductsManagement() {
             ))}
           </div>
 
-          {/* Size Checkboxes */}
+          {/* Size Radio Buttons */}
           <div>
             <p className="font-semibold">Size:</p>
             {sizes.map((s) => (
               <label key={s} className="mr-4">
                 <input
-                  type="checkbox"
+                  type="radio"
                   name="size"
                   value={s}
-                  checked={form.size.includes(s)}
-                  onChange={handleCheckboxChange}
+                  checked={form.size === s}
+                  onChange={handleChange}
                   className="mr-1"
                 />
                 {s}
@@ -226,17 +228,17 @@ export default function ProductsManagement() {
             ))}
           </div>
 
-          {/* Color Checkboxes */}
+          {/* Color Radio Buttons */}
           <div>
             <p className="font-semibold">Color:</p>
             {colors.map((c) => (
               <label key={c} className="mr-4">
                 <input
-                  type="checkbox"
+                  type="radio"
                   name="color"
                   value={c}
-                  checked={form.color.includes(c)}
-                  onChange={handleCheckboxChange}
+                  checked={form.color === c}
+                  onChange={handleChange}
                   className="mr-1"
                 />
                 <span
@@ -290,8 +292,8 @@ export default function ProductsManagement() {
                 <th className="px-6 py-3 font-semibold">Image</th>
                 <th className="px-6 py-3 font-semibold">Name</th>
                 <th className="px-6 py-3 font-semibold">Price</th>
-                <th className="px-6 py-3 font-semibold">Sizes</th>
-                <th className="px-6 py-3 font-semibold">Colors</th>
+                <th className="px-6 py-3 font-semibold">Stock</th>
+                {/* <th className="px-6 py-3 font-semibold">Colors</th> */}
                 <th className="px-6 py-3 font-semibold">Actions</th>
               </tr>
             </thead>
@@ -315,17 +317,14 @@ export default function ProductsManagement() {
                     )}
                   </td>
                   <td className="px-6 py-3">{product.name}</td>
-                  <td className="px-6 py-3">${product.price}</td>
+                  <td className="px-6 py-3">LKR {product.price}</td>
                   <td className="px-6 py-3">
-                    {product.size?.length
-                      ? product.size.join(", ")
-                      : "No sizes"}
+                    {product.stock ? product.stock : "Empty"}
                   </td>
+                  {/*
                   <td className="px-6 py-3">
-                    {product.color?.length
-                      ? product.color.join(", ")
-                      : "No colors"}
-                  </td>
+                    {product.color ? product.color : "No color"}
+                  </td> */}
                   <td className="flex px-6 py-3 space-x-2">
                     <button
                       onClick={() => handleEdit(product)}
