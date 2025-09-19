@@ -5,38 +5,40 @@ import { useNavigate } from "react-router-dom";
 
 const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
   const navigate = useNavigate();
+
+  if (!drawerOpen) return null;
+
   const handleCheckout = () => {
-    toggleCartDrawer();
-    navigate("/checkout");
+    toggleCartDrawer(); // close drawer
+    navigate("/checkout"); // navigate after drawer closes
   };
+
   return (
-    <div
-      className={`fixed top-0 right-0 w-3/4 sm:w-1/2 md:w-[30rem] h-full bg-white shadow-lg transform transition-transform duration-300 flex flex-col z-50 ${
-        drawerOpen ? "translate-x-0" : "translate-x-full"
-      }`}
-    >
-      {/*close button*/}
-      <div className="flex justify-end p-4">
-        <button onClick={toggleCartDrawer}>
-          <IoMdClose className="w-6 h-6 text-gray-600" />
-        </button>
-      </div>
-      {/* Cart Content */}
-      <div className="flex-grow p-4 overflow-y-auto">
-        <h2 className="mb-4 text-xl font-semibold">Your Cart</h2>
-        <CartContents />
-      </div>
-      {/* {Checkout Botton} */}
-      <div className="sticky bottom-0 p-4 bg-white">
-        <button
-          onClick={handleCheckout}
-          className="w-full py-3 font-semibold text-white bg-black rounded-lg hover:bg-gray-800"
-        >
-          Checkout
-        </button>
-        <p className="mt-2 text-sm tracking-tighter text-center text-gray-500 ">
-          Shipping,taxes and discount codes calculated at checkout
-        </p>
+    <div className="fixed inset-0 z-50 flex">
+      {/* Overlay */}
+      <div
+        className="fixed inset-0 bg-black bg-opacity-30"
+        onClick={toggleCartDrawer}
+      ></div>
+
+      {/* Drawer */}
+      <div
+        className="relative flex flex-col h-full ml-auto bg-white shadow-lg w-80"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b">
+          <h2 className="text-lg font-bold">Shopping Cart</h2>
+          <button
+            onClick={toggleCartDrawer}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            <IoMdClose size={24} />
+          </button>
+        </div>
+
+        {/* Cart Content */}
+        <CartContents onCheckout={handleCheckout} />
       </div>
     </div>
   );
