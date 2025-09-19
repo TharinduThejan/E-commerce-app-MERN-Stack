@@ -8,47 +8,14 @@ const FilterSideBar = () => {
     category: "",
     gender: "",
     color: "",
-    size: [],
-    material: [""],
-    brand: [],
-    minPrice: 0,
-    maxPrice: 100,
+    size: "",
+    material: "",
   });
 
-  const [priceRange, setPriceRange] = useState([0, 100]);
+  // const colors = ["Red", "Blue", "Black", "White", "Gray"];
+  // const sizes = ["XS", "S", "M", "L", "XL"];
+  // const materials = ["Cotton", "Polyester"];
 
-  const categories = ["Top Wear", "Bottom Wear"];
-  const colors = [
-    "Red",
-    "Blue",
-    "Green",
-    "Black",
-    "White",
-    "Yellow",
-    "Purple",
-    "Pink",
-    "Orange",
-    "Gray",
-  ];
-  const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
-  const materials = [
-    "Cotton",
-    "Polyester",
-    "Wool",
-    "Silk",
-    "Denim",
-    "Linen",
-    "Viscose",
-    "Fleece",
-  ];
-  const brands = [
-    "Urban Threads",
-    "Modern Fit",
-    "Street Style",
-    "Beach Breeze",
-    "Fashionista",
-    "ChicStyle",
-  ];
   const genders = ["Men", "Women"];
 
   useEffect(() => {
@@ -63,20 +30,8 @@ const FilterSideBar = () => {
       minPrice: parseInt(params.minPrice) || 0,
       maxPrice: parseInt(params.maxPrice) || 100,
     });
-    setPriceRange([
-      parseInt(params.minPrice) || 0,
-      parseInt(params.maxPrice) || 100,
-    ]);
   }, [searchParams]);
 
-  // handle price slider change
-  const handlePriceChange = (e) => {
-    const newPrice = e.target.value;
-    setPriceRange([0, newPrice]);
-    const newFilters = { ...filters, minPrice: 0, maxPrice: newPrice };
-    setFilters(filters);
-    updateURLParams(newFilters);
-  };
   const handleFilterChange = (e) => {
     const { name, value, type, checked } = e.target;
     let newFilters = { ...filters };
@@ -110,24 +65,6 @@ const FilterSideBar = () => {
     <div>
       <h2 className="text-lg font-semibold">Filter</h2>
 
-      {/* Category */}
-      <div>
-        <h3 className="mb-2 text-sm font-medium">Category</h3>
-        {categories.map((category) => (
-          <div key={category} className="flex items-center space-x-2">
-            <input
-              type="radio"
-              name="category"
-              className="w-4 h-4 text-blue-600"
-              value={category}
-              checked={filters.category === category}
-              onChange={handleFilterChange}
-            />
-            <span>{category}</span>
-          </div>
-        ))}
-      </div>
-
       {/* Gender */}
       <div>
         <h3 className="mb-2 text-sm font-medium">Gender</h3>
@@ -147,7 +84,7 @@ const FilterSideBar = () => {
       </div>
 
       {/* Colors */}
-      <div>
+      {/* <div>
         <label className="block mb-2 text-sm font-medium">Color</label>
         <div className="grid grid-cols-5 gap-2">
           {colors.map((color) => (
@@ -166,10 +103,10 @@ const FilterSideBar = () => {
             />
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Sizes */}
-      <div>
+      {/* <div>
         <label className="block mb-2 text-sm font-medium">Size</label>
         {sizes.map((size) => (
           <div key={size} className="flex items-center space-x-2">
@@ -184,10 +121,10 @@ const FilterSideBar = () => {
             <span>{size}</span>
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* Materials */}
-      <div>
+      {/* <div>
         <label className="block mb-2 text-sm font-medium">Material</label>
         {materials.map((material) => (
           <div key={material} className="flex items-center space-x-2">
@@ -202,52 +139,7 @@ const FilterSideBar = () => {
             <span>{material}</span>
           </div>
         ))}
-      </div>
-
-      {/* Brands */}
-      <div>
-        <label className="block mb-2 text-sm font-medium">Brand</label>
-        {brands.map((brand) => (
-          <div key={brand} className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              name="brand"
-              className="w-4 h-4 text-blue-600"
-              value={brand}
-              checked={filters.brand.includes(brand)}
-              onChange={handleFilterChange}
-            />
-            <span>{brand}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Price Range */}
-      <div>
-        <label className="block mb-2 text-sm font-medium">Price Range</label>
-        <div className="flex items-center gap-2">
-          {/* <input
-            type="range"
-            min="0"
-            max="100"
-            value={priceRange[0]}
-            onChange={(e) => handlePriceChange(e, 0)}
-            className="w-full"
-          /> */}
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={priceRange[1]}
-            onChange={handlePriceChange}
-            className="w-full"
-          />
-        </div>
-        <div className="flex justify-between text-sm text-gray-600">
-          <span>${priceRange[0]}</span>
-          <span>${priceRange[1]}</span>
-        </div>
-      </div>
+      </div> */}
     </div>
   );
 };

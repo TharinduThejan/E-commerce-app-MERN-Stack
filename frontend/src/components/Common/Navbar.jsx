@@ -9,6 +9,7 @@ import { IoMdClose } from "react-icons/io";
 import SearchBar from "./SearchBar";
 import CartDrawer from "../Layout/CartDrawer";
 import { getCurrentUser } from "../../services/userService";
+import logo from "../../assets/logo.png";
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -36,10 +37,13 @@ const Navbar = () => {
     <>
       <nav className="container flex items-center justify-between px-4 py-6 mx-auto">
         {/* Logo */}
-        <div>
+        <div className="flex flex-col items-center">
           <Link to="/" className="text-2xl font-medium">
-            Logo
+            <img src={logo} alt="Logo" className="object-cover h-12" />
           </Link>
+          <div className="flex items-center justify-center text-sm font-semibold ">
+            T-Shirt Store
+          </div>
         </div>
 
         {/* Center-navigation Links */}
@@ -84,9 +88,12 @@ const Navbar = () => {
                 className="relative hover:text-black"
               >
                 <HiOutlineShoppingBag className="w-6 h-6 text-gray-700" />
-                <span className="absolute -top-1 bg-primary text-white text-xs rounded-full px-2 py-0.5">
-                  4
-                </span>
+                {/* <span className="absolute -top-1 bg-primary text-white text-xs rounded-full px-2 py-0.5"> */}
+                {/* cart item count */}
+                {/* {localStorage.getItem("cartItems")
+                    ? JSON.parse(localStorage.getItem("cartItems")).length
+                    : 0} */}
+                {/* </span> */}
               </button>
             </>
           ) : null}

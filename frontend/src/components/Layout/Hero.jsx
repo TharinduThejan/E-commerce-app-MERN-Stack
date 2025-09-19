@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import rabbitHero from "../../assets/rabbit-hero.webp";
+import rabbitHero from "../../assets/hero.jpg";
 
 export default function Hero() {
   const navigate = useNavigate();
