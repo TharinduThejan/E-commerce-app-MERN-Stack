@@ -1,76 +1,53 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaFilter } from "react-icons/fa";
 import FilterSideBar from "../components/Products/FilterSideBar";
+import { getProducts } from "../services/productService.jsx";
+import { Link, useLocation } from "react-router-dom";
 
 const CollectionPage = () => {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const token = localStorage.getItem("token");
 
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const gender = searchParams.get("gender"); // men / women
+
+  // Fetch products
+  const fetchProducts = async () => {
+    try {
+      const data = await getProducts(token);
+      setProducts(data);
+    } catch (err) {
+      console.error(err.message);
+      alert("Failed to fetch products");
+    }
+  };
+
+  // Run fetch on mount
   useEffect(() => {
-    setTimeout(() => {
-      const fetchedProducts = [
-        {
-          _id: 100,
-          name: "Chino Pants",
-          price: 55,
-          img: "https://picsum.photos/200?random=500",
-        },
-        {
-          _id: 101,
-          name: "Cargo Pants",
-          price: 50,
-          img: "https://picsum.photos/200?random=501",
-        },
-        {
-          _id: 102,
-          name: "Cargo Joggers",
-          price: 45,
-          img: "https://picsum.photos/200?random=502",
-        },
-        {
-          _id: 103,
-          name: "Cargo Joggers",
-          price: 45,
-          img: "https://picsum.photos/200?random=503",
-        },
-        {
-          _id: 104,
-          name: "Cargo Joggers",
-          price: 45,
-          img: "https://picsum.photos/200?random=504",
-        },
-        {
-          _id: 105,
-          name: "Cargo Joggers",
-          price: 45,
-          img: "https://picsum.photos/200?random=505",
-        },
-        {
-          _id: 106,
-          name: "Cargo Joggers",
-          price: 45,
-          img: "https://picsum.photos/200?random=506",
-        },
-        {
-          id: 107,
-          name: "Cargo Joggers",
-          price: 45,
-          img: "https://picsum.photos/200?random=507",
-        },
-        {
-          _id: 108,
-          name: "Cargo Joggers",
-          price: 45,
-          img: "https://picsum.photos/200?random=508",
-        },
-      ];
-      setProducts(fetchedProducts);
-    }, 1000);
+    fetchProducts();
   }, []);
+
+  // Filter products when gender or products change
+  useEffect(() => {
+    if (gender) {
+      setFilteredProducts(
+        products.filter(
+          (product) =>
+            product.category &&
+            product.category.toLowerCase() === gender.toLowerCase()
+        )
+      );
+    } else {
+      setFilteredProducts(products);
+    }
+  }, [gender, products]);
 
   return (
     <div className="flex flex-col gap-6 p-4 md:flex-row md:p-6">
-      {/* mobile filter button */}
-      <button className="flex justify-center p-2 border lg:hidden item center">
+      {/* Mobile filter button */}
+      <button className="flex items-center justify-center p-2 border lg:hidden">
         <FaFilter className="m-2" />
       </button>
 
@@ -81,22 +58,44 @@ const CollectionPage = () => {
 
       {/* Product Collection */}
       <main className="w-full md:w-3/4">
-        <h2 className="mb-6 text-xl font-semibold">ALL COLLECTION</h2>
+        <h2 className="mb-6 text-xl font-semibold">
+          {gender ? `${gender.toUpperCase()} COLLECTION` : "ALL COLLECTION"}
+        </h2>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {products.map((featuredProduct) => (
-            <div
-              key={featuredProduct.id}
-              className="p-3 transition shadow rounded-2xl hover:shadow-lg"
-            >
-              <img
-                src={featuredProduct.img}
-                alt={featuredProduct.name}
-                className="object-cover w-full rounded-xl"
-              />
-              <h3 className="mt-3 font-medium">{featuredProduct.name}</h3>
-              <p className="text-gray-600">${featuredProduct.price}</p>
-            </div>
-          ))}
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <Link key={product._id} to={`/products/${product._id}`}>
+                <div className="p-3 transition shadow rounded-2xl hover:shadow-lg">
+                  <img
+                    src={
+                      product.images && product.images[0]
+                        ? product.images[0].url
+                        : "https://via.placeholder.com/200x200.png?text=No+Image"
+                    }
+                    alt={product.name}
+                    className="object-cover w-full rounded-xl"
+                  />
+                  <h3 className="mt-3 font-medium">{product.name}</h3>
+                  <p className="text-gray-600">LKR{product.price}</p>
+                  <p className="text-sm text-gray-500">
+                    Category: {product.category || "N/A"}
+                  </p>
+                  {/* <p className="text-sm text-gray-500">
+                    Sizes:{" "}
+                    {product.size?.length > 0 ? product.size.join(", ") : "N/A"}
+                  </p> */}
+                  {/* <p className="text-sm text-gray-500">
+                    Colors:{" "}
+                    {product.color?.length > 0
+                      ? product.color.join(", ")
+                      : "N/A"}
+                  </p> */}
+                </div>
+              </Link>
+            ))
+          ) : (
+            <p className="text-gray-500">No products found.</p>
+          )}
         </div>
       </main>
     </div>

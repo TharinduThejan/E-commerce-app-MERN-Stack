@@ -5,7 +5,7 @@ import placeholderProducts from "./placeholderProducts.jsx";
 export default function TopWearsWomen() {
   return (
     <div className="container px-20 mx-auto my-12">
-      <h2 className="mb-6 text-2xl font-bold">Top Wears for Women</h2>
+      <h2 className="mb-6 text-2xl font-bold">Similar Products</h2>
       <ProductGrid products={placeholderProducts} />
     </div>
   );

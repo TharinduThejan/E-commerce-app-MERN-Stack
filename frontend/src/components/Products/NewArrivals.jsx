@@ -1,6 +1,12 @@
 import React, { useRef } from "react";
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import photo1 from "../../assets/p6.jpeg";
+import photo2 from "../../assets/p2.jpeg";
+import photo3 from "../../assets/p3.webp";
+import photo4 from "../../assets/p4.webp";
+import photo5 from "../../assets/p5.jpg";
+import photo6 from "../../assets/p1.jpeg";
 
 const NewArrivals = () => {
   const scrollRef = useRef(null);
@@ -12,7 +18,7 @@ const NewArrivals = () => {
       price: 100,
       image: [
         {
-          image: "https://picsum.photos/400?random=8",
+          image: photo1,
           altText: "Stylish Jacket",
         },
       ],
@@ -23,7 +29,7 @@ const NewArrivals = () => {
       price: 120,
       image: [
         {
-          image: "https://picsum.photos/400?random=9",
+          image: photo2,
           altText: "Trendy Outfit",
         },
       ],
@@ -34,7 +40,7 @@ const NewArrivals = () => {
       price: 140,
       image: [
         {
-          image: "https://picsum.photos/400?random=10",
+          image: photo3,
           altText: "Casual Wear",
         },
       ],
@@ -45,7 +51,7 @@ const NewArrivals = () => {
       price: 90,
       image: [
         {
-          image: "https://picsum.photos/400?random=11",
+          image: photo4,
           altText: "Classic Look",
         },
       ],
@@ -56,7 +62,7 @@ const NewArrivals = () => {
       price: 110,
       image: [
         {
-          image: "https://picsum.photos/400?random=12",
+          image: photo5,
           altText: "Street Style",
         },
       ],
@@ -67,7 +73,7 @@ const NewArrivals = () => {
       price: 130,
       image: [
         {
-          image: "https://picsum.photos/400?random=13",
+          image: photo6,
           altText: "Smart Outfit",
         },
       ],
@@ -103,7 +109,7 @@ const NewArrivals = () => {
         <div className="relative">
           <div
             ref={scrollRef}
-            className="flex px-2 py-4 space-x-6 overflow-x-scroll scrollbar-hide scroll-smooth"
+            className="flex px-2 py-4 space-x-6 overflow-x-scroll scrollbar-hide scroll-smooth "
           >
             {newArrivals.map((product) => (
               <div
@@ -126,7 +132,7 @@ const NewArrivals = () => {
                       {product.name}
                     </h4>
                   </Link>
-                  <p className="mt-2 text-gray-600">${product.price}</p>
+                  <p className="mt-2 text-gray-600">LKR{product.price}</p>
                 </div>
               </div>
             ))}

@@ -1,5 +1,5 @@
 import React from "react";
-import photo from "../../assets/featured.webp";
+import photo from "../../assets/featured.jpg";
 import { Link } from "react-router-dom";
 export default function FeaturedCollection() {
   return (

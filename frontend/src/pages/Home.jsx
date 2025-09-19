@@ -13,7 +13,7 @@ export default function Home() {
       <GenderCollectionSection />
       <NewArrivals />
       {/* Best Seller Section */}
-      <ProductDetails />
+
       <TopWearsWomen />
       <FeaturedCollection />
       {/* Add more sections as needed */}
