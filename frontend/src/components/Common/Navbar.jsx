@@ -33,6 +33,15 @@ const Navbar = () => {
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    const handleLogin = () => {
+      const token = localStorage.getItem("token");
+      if (token) setUser({ token });
+    };
+    window.addEventListener("login", handleLogin);
+    return () => window.removeEventListener("login", handleLogin);
+  }, []);
+
   return (
     <>
       <nav className="container flex items-center justify-between px-4 py-6 mx-auto">

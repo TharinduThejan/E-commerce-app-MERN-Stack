@@ -7,15 +7,27 @@ import {
   FaBars,
 } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
+// Main sidebar component for admin pages
 const AdminSidebar = () => {
+  // State for sidebar open/close
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
   const location = useLocation();
 
+  // Toggle sidebar open/close
   const toggleSidebar = () => {
     setisSidebarOpen(!isSidebarOpen);
   };
 
+  const navigate = useNavigate();
+
+  // Logout function for admin
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.open(`${import.meta.env.VITE_API_URL}/auth/logout`, "_self");
+    navigate("/login");
+  };
   const sidebarItems = [
     { name: "Admin Dashboard", icon: <FaClipboardList />, path: "/admin" },
     { name: "Users", icon: <FaUsers />, path: "/admin/users" },
@@ -57,7 +69,10 @@ const AdminSidebar = () => {
 
       {/* Logout */}
       <div className="p-6">
-        <button className="w-full py-2 bg-red-500 rounded hover:bg-red-600">
+        <button
+          onClick={handleLogout}
+          className="w-full py-2 bg-red-500 rounded hover:bg-red-600"
+        >
           Logout
         </button>
       </div>

@@ -22,8 +22,8 @@ const Login = () => {
         { email, password }
       );
       localStorage.setItem("token", res.data.token);
-      console.log(res.data);
       setLoading(false);
+      window.dispatchEvent(new Event("login"));
       navigate("/");
     } catch (err) {
       setLoading(false);

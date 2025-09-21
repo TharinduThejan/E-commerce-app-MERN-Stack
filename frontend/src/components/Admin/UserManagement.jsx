@@ -14,7 +14,7 @@ export default function UserManagement() {
     name: "",
     email: "",
     password: "",
-    role: "customer",
+    role: "user",
   });
 
   const token = localStorage.getItem("token"); // JWT token from login
@@ -47,7 +47,7 @@ export default function UserManagement() {
 
     try {
       await createUser(form, token);
-      setForm({ name: "", email: "", password: "", role: "customer" });
+      setForm({ name: "", email: "", password: "", role: "user" });
       fetchUsers();
     } catch (err) {
       console.error(err.message);
@@ -122,7 +122,7 @@ export default function UserManagement() {
                 onChange={handleChange}
                 className="w-full p-2 border rounded"
               >
-                <option value="customer">Customer</option>
+                <option value="user">Customer</option>
                 <option value="admin">Admin</option>
               </select>
               <button
@@ -158,7 +158,7 @@ export default function UserManagement() {
                         }
                         className="p-1 border rounded"
                       >
-                        <option value="customer">Customer</option>
+                        <option value="user">Customer</option>
                         <option value="admin">Admin</option>
                       </select>
                     </td>

@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
 
 export default function Checkout() {
-  const navigate = useNavigate();
   const cartProducts = useSelector((state) => state.cart.cartProducts);
   const totalPrice = cartProducts.reduce(
     (sum, item) => sum + item.price * item.quantity,

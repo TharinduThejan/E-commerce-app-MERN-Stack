@@ -101,7 +101,7 @@ const CartContents = ({ onCheckout }) => {
         <div className="flex justify-between mb-3">
           <span className="font-semibold">Total:</span>
           <span className="font-bold">
-            $
+            LKR{" "}
             {cartProducts
               .reduce((sum, item) => sum + item.price * item.quantity, 0)
               .toFixed(2)}

@@ -14,8 +14,8 @@ const Profile = () => {
     <div className="flex justify-center h-screen p-2 space-x-10 bg-gray-100">
       {/* Sidebar */}
       <div className="flex flex-col items-center h-screen max-h-[300px] col-span-1 p-6 bg-white shadow-md rounded-2xl">
-        <h2 className="text-xl font-bold">Admin User</h2>
-        <p className="text-gray-500">admin@example.com</p>
+        <h2 className="text-xl font-bold">User Details</h2>
+        <p className="text-gray-500">user@gmail.com</p>
         <img
           src="https://picsum.photos/400?random=150"
           alt="Profile"
